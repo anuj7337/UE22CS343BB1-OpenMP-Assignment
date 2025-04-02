@@ -167,8 +167,8 @@ int main( int argc, char * argv[] ) {
 
                 // IMPLEMENT
                 // extract procNodeAddr and memBlockAddr from message address
-                byte procNodeAddr = getProcessorID(msg.address);
-                byte memBlockAddr = getMemoryBlock(msg.address);
+                byte procNodeAddr = (msg.address >> 4) & 0x0F;
+                byte memBlockAddr = msg.address & 0x0F;
                 byte cacheIndex = memBlockAddr % CACHE_SIZE;
 
                 switch ( msg.type ) {
@@ -625,8 +625,8 @@ int main( int argc, char * argv[] ) {
             // IMPLEMENT
             // Extract the home node's address and memory block index from
             // instruction address
-            byte procNodeAddr = getProcessorID(instr.address);
-            byte memBlockAddr = getMemoryBlock(instr.address);
+            byte procNodeAddr = (msg.address >> 4) & 0x0F;
+            byte memBlockAddr = msg.address & 0x0F;
             byte cacheIndex = memBlockAddr % CACHE_SIZE;
 
           if ( instr.type == 'R' ) {
@@ -717,8 +717,8 @@ void handleCacheReplacement( int sender, cacheLine oldCacheLine ) {
     // IMPLEMENT
     // Notify the home node before a cacheline gets replaced
     // Extract the home node's address and memory block index from cacheline address
-    byte memBlockAddr = getMemoryBlock(oldCacheLine.address);
-    byte procNodeAddr = getProcessorID(oldCacheLine.address);
+    byte memBlockAddr = oldCacheLine.address & 0x0F;
+    byte procNodeAddr = (oldCacheLine.address >> 4) & 0x0F;
     message evictMsg;
     evictMsg.sender=sender;
     evictMsg.address=oldCacheLine.address;
