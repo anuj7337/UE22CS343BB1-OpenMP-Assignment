@@ -852,5 +852,5 @@ byte getMemoryBlock(byte address) {
 }
 
 byte getProcessorID(byte address) {
-    return (address >> 4) & 0x0F; // Shift right 4 bits, mask to keep last 4
+    return (address >> 4) & 0x0F;
 }
